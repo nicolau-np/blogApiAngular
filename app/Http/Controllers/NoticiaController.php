@@ -32,14 +32,25 @@ class NoticiaController extends Controller
         $this->validate($request, [
              'titulo'=>'required|string',
          'descricao'=>'required|string',
-         'img'=>'required|string',
+         'img'=>'required|mimes:jpg,png,jpeg',
         ], [], [
              'titulo'=>"Título",
          'descricao'=>"Descrição",
          'img'=>"Imagem",
         ]);
 
-        $noticia = Noticia::create($request->all());
+           $data = [
+'titulo'=>$request->titulo,
+'descricao'=>$request->descricao,
+'img'=>null
+            ];
+
+          if ($request->hasFile('img') && $request->img->isValid()) {
+                $path = $request->file('img')->store('imagens');
+                $data['img'] = $path;
+            }
+
+        $noticia = Noticia::create($data);
         return new NoticiaResource($noticia);
     }
 
@@ -74,7 +85,7 @@ class NoticiaController extends Controller
          $this->validate($request, [
              'titulo'=>'required|string',
          'descricao'=>'required|string',
-         'img'=>'required|string',
+         'img'=>'required|mimes:jpg,png,jpeg',
         ], [], [
              'titulo'=>"Título",
          'descricao'=>"Descrição",
@@ -93,7 +104,7 @@ $noticia->update($request->all());
      */
     public function destroy($id)
     {
-                 $noticia = Noticia::find($id);
+         $noticia = Noticia::find($id);
         if(!$noticia)
         return ['data'=>['error'=>"Não encontrou notícia"]];
 
