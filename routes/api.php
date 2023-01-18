@@ -29,6 +29,7 @@ Route::prefix('noticias')->group(function () {
 });
 
 Route::prefix('user')->group(function () {
+   // Route::get('/{id}', [UserController::class, 'index']);
     Route::post('login', [UserController::class, 'login']);
     Route::post('logout', [UserController::class, 'logout']);
 });
