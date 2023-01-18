@@ -26,3 +26,6 @@ Route::prefix('noticias')->group(function () {
     Route::put('/{id}', [NoticiaController::class, 'update']);
     Route::delete('/{id}', [NoticiaController::class, 'destroy']);
 });
+
+Route::post('login', [UserController::class, 'login']);
+Route::post('logout', [UserController::class, 'logout']);
