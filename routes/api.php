@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoticiaController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,7 @@ Route::prefix('noticias')->group(function () {
     Route::delete('/{id}', [NoticiaController::class, 'destroy']);
 });
 
-Route::post('login', [UserController::class, 'login']);
-Route::post('logout', [UserController::class, 'logout']);
+Route::prefix('user')->group(function () {
+    Route::post('login', [UserController::class, 'login']);
+    Route::post('logout', [UserController::class, 'logout']);
+});
