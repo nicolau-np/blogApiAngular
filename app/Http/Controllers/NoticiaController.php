@@ -30,25 +30,19 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-             'titulo'=>'required|string',
-         'descricao'=>'required|string',
-         'img'=>'required|mimes:jpg,png,jpeg',
+            'titulo' => 'required|string',
+            'descricao' => 'required|string',
         ], [], [
-             'titulo'=>"Título",
-         'descricao'=>"Descrição",
-         'img'=>"Imagem",
+            'titulo' => "Título",
+            'descricao' => "Descrição",
         ]);
 
-           $data = [
-'titulo'=>$request->titulo,
-'descricao'=>$request->descricao,
-'img'=>null
-            ];
+        $data = [
+            'titulo' => $request->titulo,
+            'descricao' => $request->descricao,
+            'img' => $request->img
+        ];
 
-          if ($request->hasFile('img') && $request->img->isValid()) {
-                $path = $request->file('img')->store('imagens');
-                $data['img'] = $path;
-            }
 
         $noticia = Noticia::create($data);
         return new NoticiaResource($noticia);
@@ -63,8 +57,8 @@ class NoticiaController extends Controller
     public function show($id)
     {
         $noticia = Noticia::find($id);
-        if(!$noticia)
-        return ['errors'=>['error'=>"Não encontrou notícia"]];
+        if (!$noticia)
+            return ['errors' => ['error' => "Não encontrou notícia"]];
 
         return new NoticiaResource($noticia);
     }
@@ -78,21 +72,19 @@ class NoticiaController extends Controller
      */
     public function update(Request $request, $id)
     {
-          $noticia = Noticia::find($id);
-        if(!$noticia)
-        return ['errors'=>['error'=>"Não encontrou notícia"]];
+        $noticia = Noticia::find($id);
+        if (!$noticia)
+            return ['errors' => ['error' => "Não encontrou notícia"]];
 
-         $this->validate($request, [
-             'titulo'=>'required|string',
-         'descricao'=>'required|string',
-         'img'=>'required|mimes:jpg,png,jpeg',
+        $this->validate($request, [
+            'titulo' => 'required|string',
+            'descricao' => 'required|string',
         ], [], [
-             'titulo'=>"Título",
-         'descricao'=>"Descrição",
-         'img'=>"Imagem",
+            'titulo' => "Título",
+            'descricao' => "Descrição",
         ]);
 
-$noticia->update($request->all());
+        $noticia->update($request->all());
         return new NoticiaResource($noticia);
     }
 
@@ -104,12 +96,12 @@ $noticia->update($request->all());
      */
     public function destroy($id)
     {
-         $noticia = Noticia::find($id);
-        if(!$noticia)
-        return ['data'=>['error'=>"Não encontrou notícia"]];
+        $noticia = Noticia::find($id);
+        if (!$noticia)
+            return ['data' => ['error' => "Não encontrou notícia"]];
 
         $noticia->delete();
 
-        return ['data'=>['success'=>"Eliminada com sucesso"]];
+        return ['data' => ['success' => "Eliminada com sucesso"]];
     }
 }

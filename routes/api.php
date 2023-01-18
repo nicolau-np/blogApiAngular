@@ -19,10 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('noticias')->group(function(){
+Route::prefix('noticias')->group(function () {
     Route::get('/', [NoticiaController::class, 'index']);
     Route::get('/{id}', [NoticiaController::class, 'show']);
     Route::post('/', [NoticiaController::class, 'store']);
-Route::put('/{id}', [NoticiaController::class, 'update']);
-Route::delete('/{id}', [NoticiaController::class, 'destroy']);
+    Route::put('/{id}', [NoticiaController::class, 'update']);
+    Route::delete('/{id}', [NoticiaController::class, 'destroy']);
 });
