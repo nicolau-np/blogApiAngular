@@ -46,8 +46,7 @@ class UserController extends Controller
             });
             return response(['message' => "Terminou sessao em todos os dispositivos"], 200);
         }
-        $userToken = $user()->token();
-        $userToken->delete();
+        Auth::user()->currentAccessToken()->delete();
         return response(['message' => "Terminou sessao em um dispositivo"], 200);
         /*Auth::user()->tokens()->delete();
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('all', function () {
+/*Route::get('all', function () {
     return UserResource::collection(User::all());
 });
+*/
 
 Route::prefix('noticias')->group(function () {
     Route::get('/', [NoticiaController::class, 'index']);
