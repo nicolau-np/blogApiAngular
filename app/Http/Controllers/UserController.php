@@ -32,10 +32,44 @@ class UserController extends Controller
         return response()->json(['data' => null], 401);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::user()->tokens()->delete();
+        $this->validate($request, [
+            'allDevice' => 'required|boolean'
+        ]);
 
-        return response()->json([], 204);
+        $user = Auth::user();
+
+        if ($request->allDevice) {
+            $user->tokens->each(function ($token) {
+                $token->delete();
+            });
+            return response(['message' => "Terminou sessao em todos os dispositivos"], 200);
+        }
+        $userToken = $user()->token();
+        $userToken->delete();
+        return response(['message' => "Terminou sessao em um dispositivo"], 200);
+        /*Auth::user()->tokens()->delete();
+
+        return response()->json([], 204);*/
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string|min:4',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required|string|min:6'
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'nivel' => "user",
+        ];
+        $user = User::create($data);
+        return new UserResource($user);
     }
 }

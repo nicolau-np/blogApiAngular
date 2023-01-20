@@ -28,8 +28,9 @@ Route::prefix('noticias')->group(function () {
     Route::delete('/{id}', [NoticiaController::class, 'destroy']);
 });
 
-Route::prefix('user')->group(function () {
-   // Route::get('/{id}', [UserController::class, 'index']);
+Route::prefix('auth')->group(function () {
+    // Route::get('/{id}', [UserController::class, 'index']);
+    Route::post('register', [UserController::class, 'register']);
     Route::post('login', [UserController::class, 'login']);
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 });
