@@ -18,6 +18,11 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $this->validate($request, [
+            'email'=>'required|email|exists:usuarios,email',
+            'password'=>'required|string|min:6'
+        ]);
+
         $data = [
             'email' => $request->email,
             'password' => $request->password,
@@ -29,7 +34,7 @@ class UserController extends Controller
             return response()->json(['data' => ['token' => $token->plainTextToken, 'user' => $user]], 200);
         }
 
-        return response()->json(['data' => null], 401);
+        return response(['message' => "Palavra-Passe Incorrecta"], 401);
     }
 
     public function logout(Request $request)

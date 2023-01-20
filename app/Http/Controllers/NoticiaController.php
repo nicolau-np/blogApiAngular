@@ -58,7 +58,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::find($id);
         if (!$noticia)
-        return response(['message' => "Não encontrou notícia"], 404);
+        return response(['errors'=>['message' => "Não encontrou notícia"]], 400);
 
         return new NoticiaResource($noticia);
     }
@@ -74,7 +74,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::find($id);
         if (!$noticia)
-        return response(['message' => "Não encontrou notícia"], 404);
+        return response(['errors'=>['message' => "Não encontrou notícia"]], 400);
 
         $this->validate($request, [
             'titulo' => 'required|string',
@@ -98,7 +98,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::find($id);
         if (!$noticia)
-            return response(['message' => "Não encontrou notícia"], 404);
+        return response(['errors'=>['message' => "Não encontrou notícia"]], 400);
 
         $noticia->delete();
 
